@@ -1,0 +1,14 @@
+{
+  "name": "imobiliaria-kianda",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kianda Imobiliária — portal público, gestão interna (CRM, visitas, propostas, arrendamentos, finanças) e área reservada. Vercel + Neon + Vercel Blob.",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
+    "@vercel/blob": "^1.0.0"
+  }
+}
