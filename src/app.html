@@ -144,7 +144,7 @@ tr.click{cursor:pointer}
 .map svg{display:block;width:100%;height:auto}
 .pin{cursor:pointer}
 .pin:hover rect{fill:#C73A3F}
-.cta{margin:50px 0;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cta{margin:50px auto;display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .cta .card{padding:30px;position:relative;overflow:hidden;border:0}
 .cta .card:nth-child(1){background:linear-gradient(135deg,#3A3D46,#2B2D33);color:#fff;box-shadow:var(--sh2)}
 .cta .card:nth-child(1) .mut{color:#c9cbd3}
@@ -294,6 +294,77 @@ button:active,.btn:active{transform:none;box-shadow:none}
 .hero-img .float{position:absolute;left:16px;right:16px;bottom:16px;background:#fff;border-radius:16px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .hero-img .float b{display:block;font-family:'Plus Jakarta Sans',Inter,sans-serif;font-size:15px}
 @media(max-width:900px){.hero-img{height:300px}}
+
+/* ===== Versão telemóvel / tablet ===== */
+.mtabs{display:none}.mfilt{display:none}
+@media(max-width:900px){
+ .shell{grid-template-columns:minmax(0,1fr)}
+ .ph-in{gap:10px 14px}
+ .ph-in>:first-child{flex:1}
+ .pnav{flex:1 1 100%;order:3;margin:0;padding:0 0 2px;scrollbar-width:none}.pnav::-webkit-scrollbar{display:none}
+ .side{position:sticky;top:0;z-index:20;background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none;align-items:center;padding:10px 14px;gap:10px 14px}
+ .side>:first-child{flex:1}
+ .side-foot{flex-direction:row;align-items:center;background:none;border:0;padding:0;gap:12px}
+ .side-foot .me small:not(#syncst){display:none}
+ .side nav{scrollbar-width:none;gap:4px;flex:1 1 100%}.side nav::-webkit-scrollbar{display:none}
+ .card.np table{min-width:760px}
+ .kanban{grid-template-columns:repeat(6,minmax(230px,78vw));scroll-snap-type:x mandatory}.kcol{scroll-snap-align:start}
+ .hero-img{height:300px}
+}
+@media(max-width:640px){
+ body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+ .wrap{padding:0 16px}
+ input,select,textarea{font-size:16px}
+ .ph-in{height:60px;padding:0;flex-wrap:nowrap}
+ .ph .pnav{display:none}
+ .ph-act .hs{display:none}
+ .ph-act .btn{padding:8px 12px}
+ .mtabs{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(43,45,51,.06)}
+ .mtabs a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--mut);text-decoration:none!important;padding:4px 0;border-radius:12px;position:relative}
+ .mtabs svg{width:22px;height:22px}
+ .mtabs a.on{color:var(--red)}
+ .mtabs b{position:absolute;top:0;left:calc(50% + 6px);background:var(--red);color:#fff;font-size:10px;min-width:16px;height:16px;border-radius:8px;display:grid;place-items:center;padding:0 4px}
+ .cmpbar{bottom:calc(78px + env(safe-area-inset-bottom));max-width:calc(100% - 20px);flex-wrap:wrap;justify-content:center;border-radius:20px}
+ .hero{padding-top:22px}
+ .hero h1{font-size:31px;line-height:1.08}
+ .hero .row .btn{flex:1;justify-content:center}
+ .hero-img{height:240px;border-radius:20px}
+ .hero-img .float{left:10px;right:10px;bottom:10px;padding:10px 12px}
+ .search{padding:16px}
+ .fin-tabs{gap:4px}.fin-tabs button{padding:8px 11px;font-size:13px}
+ .mfilt{display:inline-flex;margin-left:auto;background:var(--panel2);border:1px solid var(--line);font-weight:700}
+ #searchbox.fclosed .g6>div:not(.fq){display:none}
+ .g6>.span2,.g6>.span3,.g6>.spanall{grid-column:1/-1}
+ .rhead{margin:24px 0 12px}
+ .rhead>:last-child{width:100%;display:flex;gap:8px;flex-wrap:wrap}
+ .cta{margin:34px auto;gap:14px}.cta .card{padding:22px}
+ .cta .btn{width:100%;justify-content:center}
+ .pf .row{flex-direction:column;align-items:flex-start;gap:18px}
+ .pf{margin-top:40px}
+ .mbg{padding:0;align-items:stretch}
+ .modal{border-radius:0;max-width:none;min-height:100%;display:flex;flex-direction:column}
+ .mh{position:sticky;top:0;z-index:2;background:var(--panel);padding:14px 16px}
+ .mh h2{font-size:16px}
+ .mb{flex:1;padding:16px}
+ .mf{position:sticky;bottom:0;background:var(--panel);flex-wrap:wrap;border-radius:0}
+ .mf .btn{flex:1;justify-content:center}
+ .g4,.g6{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .kv{grid-template-columns:1fr 1fr}
+ .thumbs{grid-template-columns:repeat(4,1fr)}
+ .main{padding:16px 14px 90px}
+ .phead{align-items:flex-start}.phead h1{font-size:26px}
+ .phead>:last-child{display:flex;flex-wrap:wrap;gap:8px}
+ .filters input,.filters select{min-width:0;flex:1 1 140px}
+ .side{padding:8px 14px}
+ .side-foot .me{display:none}
+ .side nav{position:fixed;left:0;right:0;bottom:0;z-index:40;width:auto;background:#fff;border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(43,45,51,.06)}
+ .side nav a{flex:0 0 auto;min-width:72px;flex-direction:column;gap:3px;font-size:11px;padding:4px 8px;text-align:center;justify-content:center;background:none!important}
+ .side nav a>span:first-child{margin:0 auto}
+ .side nav a.on{color:var(--red)}
+ .login{padding:16px}
+ .dp{left:50%!important;transform:translateX(-50%);max-width:calc(100vw - 20px)}
+}
+@media(max-width:380px){.g4{grid-template-columns:1fr}.ph-act .btn.gold{padding:8px 10px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -572,17 +643,21 @@ function rPortal(){const pg=V.pub.page;
 function pubHeader(){const fc=favList().length,pg=V.pub.page;
  return `<header class="ph"><div class="stripe"></div><div class="wrap ph-in">${logoHTML('Imobiliária',false,"V.pub.f={finalidade:'',caract:[]};go('portal','home')")}
  <nav class="pnav"><a class="${pg==='home'&&V.pub.f.finalidade==='venda'?'on':''}" onclick="quick('venda')">Comprar</a><a class="${pg==='home'&&V.pub.f.finalidade==='arrendamento'?'on':''}" onclick="quick('arrendamento')">Arrendar</a><a class="${pg==='procuro'?'on':''}" onclick="go('portal','procuro')">Procuro um imóvel</a><a class="${pg==='vender'?'on':''}" onclick="go('portal','vender')">Quero vender ou arrendar</a><a class="${pg==='favoritos'?'on':''}" onclick="go('portal','favoritos')">♡ Favoritos <b>${fc}</b></a></nav>
- <div class="ph-act"><button class="btn sm ghost" onclick="go('reservada')">👤 ${V.res.cli?esc(C(V.res.cli).nome.split(' ')[0]):'Área reservada'}</button><button class="btn sm gold" onclick="go('interno')">Área interna</button></div></div></header>`}
+ <div class="ph-act"><button class="btn sm ghost" onclick="go('reservada')" aria-label="Área reservada">👤 <span class="hs">${V.res.cli?esc(C(V.res.cli).nome.split(' ')[0]):'Área reservada'}</span></button><button class="btn sm gold" onclick="go('interno')">Área interna</button></div></div></header>${mTabs()}`}
+const MIC={venda:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',arrendamento:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/>',procuro:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',vender:'<path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',favoritos:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'};
+function mTabs(){const pg=V.view==='portal'?V.pub.page:'',f=V.pub.f.finalidade,fc=favList().length;
+ const it=[['venda','Comprar',"quick('venda')",pg==='home'&&f==='venda'],['arrendamento','Arrendar',"quick('arrendamento')",pg==='home'&&f==='arrendamento'],['procuro','Procuro',"go('portal','procuro')",pg==='procuro'],['vender','Vender',"go('portal','vender')",pg==='vender'],['favoritos','Favoritos',"go('portal','favoritos')",pg==='favoritos']];
+ return `<nav class="mtabs">${it.map(([k,l,fn,on])=>`<a class="${on?'on':''}" onclick="${fn}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${MIC[k]}</svg>${l}${k==='favoritos'&&fc?`<b>${fc}</b>`:''}</a>`).join('')}</nav>`}
 function pubFooter(){const c=S.cfg;return `<footer class="pf"><div class="wrap row between"><div>${logoHTML('Imobiliária · Angola',true,'')}<div style="margin-top:10px">${esc(c.empresa)} · Luanda</div></div><div>WhatsApp: <a href="${waLink(c.whatsapp,'Olá, gostaria de informações sobre imóveis.')}" target="_blank" rel="noopener">${esc(c.whatsapp)}</a><br>E-mail: ${esc(c.email)}</div><div class="sm">Preços apresentados na moeda indicada em cada imóvel.<br>© ${new Date().getFullYear()} ${esc(c.empresa)}</div></div></footer>`}
 function cmpBar(){if(!V.compare.length||V.view!=='portal')return '';return `<div class="cmpbar"><span class="mut">Comparar:</span>${V.compare.map(id=>`<span>${esc(P(id).ref)} <a onclick="toggleCmp('${id}')">✕</a></span>`).join('')}<button class="btn gold sm" onclick="openCompare()" ${V.compare.length<2?'disabled':''}>Comparar ${V.compare.length}</button></div>`}
 
-function pubHome(){return `<section class="hero"><div class="wrap"><div class="hero-grid"><div><p class="eyebrow">Luanda · Benguela · Huíla</p><h1>Encontre o imóvel certo <em>em Angola.</em></h1><p class="mut" style="max-width:560px;font-size:16px">Apartamentos, moradias, terrenos, escritórios, lojas e armazéns — para comprar ou arrendar, com um corretor a acompanhar do primeiro contacto à entrega da chave.</p><div class="row" style="margin-top:18px"><button class="btn gold" onclick="quick('venda')">Comprar</button><button class="btn" onclick="quick('arrendamento')">Arrendar</button><a class="btn ghost" href="${waLink(S.cfg.whatsapp,'Olá, procuro um imóvel.')}" target="_blank" rel="noopener">WhatsApp</a></div></div>${(()=>{const f=S.props.find(p=>p.publicado&&p.estado==='disponivel'&&p.tipo==='moradia')||pubList()[0];return f?`<div class="hero-img" onclick="openProp('${f.id}')"><img src="${photos(f)[0]}" alt="${esc(f.titulo)}"><div class="float"><div><span class="mut sm">Em destaque · ${esc(f.bairro)}</span><b>${esc(f.titulo)}</b></div><div class="price" style="font-size:18px">${priceHTML(f)}</div></div></div>`:''})()}</div><div class="search card" id="searchbox">${searchForm()}</div></div></section>
+function pubHome(){return `<section class="hero"><div class="wrap"><div class="hero-grid"><div><p class="eyebrow">Luanda · Benguela · Huíla</p><h1>Encontre o imóvel certo <em>em Angola.</em></h1><p class="mut" style="max-width:560px;font-size:16px">Apartamentos, moradias, terrenos, escritórios, lojas e armazéns — para comprar ou arrendar, com um corretor a acompanhar do primeiro contacto à entrega da chave.</p><div class="row" style="margin-top:18px"><button class="btn gold" onclick="quick('venda')">Comprar</button><button class="btn" onclick="quick('arrendamento')">Arrendar</button><a class="btn ghost" href="${waLink(S.cfg.whatsapp,'Olá, procuro um imóvel.')}" target="_blank" rel="noopener">WhatsApp</a></div></div>${(()=>{const f=S.props.find(p=>p.publicado&&p.estado==='disponivel'&&p.tipo==='moradia')||pubList()[0];return f?`<div class="hero-img" onclick="openProp('${f.id}')"><img src="${photos(f)[0]}" alt="${esc(f.titulo)}"><div class="float"><div><span class="mut sm">Em destaque · ${esc(f.bairro)}</span><b>${esc(f.titulo)}</b></div><div class="price" style="font-size:18px">${priceHTML(f)}</div></div></div>`:''})()}</div><div class="search card ${V.pub.fo?'':'fclosed'}" id="searchbox">${searchForm()}</div></div></section>
  <section class="wrap" id="results">${resultsHTML()}</section>
  <section class="wrap cta"><div class="card"><p class="eyebrow">Ainda não encontrou?</p><h2>Procuro um imóvel</h2><p class="mut">Diga-nos o que procura e avisamos quando surgir um imóvel compatível.</p><button class="btn gold" onclick="go('portal','procuro')">Deixar o meu pedido</button></div><div class="card"><p class="eyebrow">Proprietários</p><h2>Quero vender ou arrendar</h2><p class="mut">Avaliamos, divulgamos e acompanhamos todo o processo — incluindo a gestão mensal do arrendamento.</p><button class="btn gold" onclick="go('portal','vender')">Entregar o meu imóvel</button></div></section>`}
 function searchForm(){const f=V.pub.f;const muns=f.provincia&&LOC[f.provincia]?Object.keys(LOC[f.provincia]):[];
- return `<div class="fin-tabs">${[['','Todos'],['venda','Comprar'],['arrendamento','Arrendar']].map(([k,l])=>`<button class="${(f.finalidade||'')===k?'on':''}" onclick="setPF('finalidade','${k}',true)">${l}</button>`).join('')}</div>
+ return `<div class="fin-tabs">${[['','Todos'],['venda','Comprar'],['arrendamento','Arrendar']].map(([k,l])=>`<button class="${(f.finalidade||'')===k?'on':''}" onclick="setPF('finalidade','${k}',true)">${l}</button>`).join('')}<button class="mfilt" onclick="togF()">${V.pub.fo?'Menos filtros ▴':'Filtros'+(nFiltros()?` (${nFiltros()})`:'')+' ▾'}</button></div>
  <div class="grid g6">
- <div class="span2"><label>Localização / palavra-chave</label><input id="pq" placeholder="Bairro, município, referência…" value="${esc(f.q||'')}" oninput="V.pub.f.q=this.value;later(()=>{$('#results').innerHTML=resultsHTML()})"></div>
+ <div class="span2 fq"><label>Localização / palavra-chave</label><input id="pq" placeholder="Bairro, município, referência…" value="${esc(f.q||'')}" oninput="V.pub.f.q=this.value;later(()=>{$('#results').innerHTML=resultsHTML()})"></div>
  <div><label>Província</label><select onchange="V.pub.f.municipio='';setPF('provincia',this.value,true)"><option value="">Todas</option>${PROVINCIAS.map(p=>`<option ${f.provincia===p?'selected':''}>${p}</option>`).join('')}</select></div>
  <div><label>Município</label><select onchange="setPF('municipio',this.value)" ${muns.length?'':'disabled'}><option value="">Todos</option>${muns.map(m=>`<option ${f.municipio===m?'selected':''}>${m}</option>`).join('')}</select></div>
  <div><label>Tipo</label><select onchange="setPF('tipo',this.value)"><option value="">Todos</option>${Object.entries(TIPO).map(([k,l])=>`<option value="${k}" ${f.tipo===k?'selected':''}>${l}</option>`).join('')}</select></div>
@@ -592,6 +667,8 @@ function searchForm(){const f=V.pub.f;const muns=f.provincia&&LOC[f.provincia]?O
  <div><label>Quartos (mín.)</label><select onchange="setPF('quartos',this.value)"><option value="">Qualquer</option>${[1,2,3,4,5].map(n=>`<option ${String(f.quartos)===String(n)?'selected':''}>${n}</option>`).join('')}</select></div>
  <div class="span3"><label>Características</label><div class="chips">${CARACT.map(c=>`<button class="chip ${f.caract.includes(c)?'on':''}" onclick="togPC('${c}')">${c}</button>`).join('')}</div></div>
  </div>`}
+function nFiltros(){const f=V.pub.f;return ['provincia','municipio','tipo','tipologia','pmax','quartos'].filter(k=>f[k]).length+(f.caract||[]).length}
+function togF(){V.pub.fo=!V.pub.fo;const b=$('#searchbox');b.classList.toggle('fclosed',!V.pub.fo);b.innerHTML=searchForm()}
 function setPF(k,v,full){V.pub.f[k]=v;if(full||k==='municipio'){$('#searchbox').innerHTML=searchForm()}$('#results').innerHTML=resultsHTML();if(k==='finalidade')render()}
 function togPC(c){const a=V.pub.f.caract;const i=a.indexOf(c);i>=0?a.splice(i,1):a.push(c);$('#searchbox').innerHTML=searchForm();$('#results').innerHTML=resultsHTML()}
 function pubList(){const f=V.pub.f;let L=S.props.filter(p=>p.publicado&&['disponivel','reservado'].includes(p.estado)&&p.finalidade!=='procura');
