@@ -192,7 +192,7 @@
   }
   window.addImgFiles = function (k, files) {
     const h = phHolder(k); h.imgs = h.imgs || []; const room = 20 - h.imgs.length; if (room <= 0) { toast('Máximo de 20 fotografias por imóvel'); return; }
-    readFiles([...files].slice(0, room), async out => { const urls = await uploadAll(out, 'imoveis'); urls.forEach(u => h.imgs.push(u)); if (urls.length) { phRefresh(k, `${urls.length} fotografia(s) adicionada(s)`); toast(`${urls.length} fotografia(s) adicionada(s)`); } }, 1600, .82);
+    readFiles([...files].slice(0, room), async out => { const urls = await uploadAll(out, 'imoveis'); urls.forEach(u => h.imgs.push(u)); if (urls.length) { phRefresh(k, `${urls.length} fotografia(s) adicionada(s)`); toast(`${urls.length} fotografia(s) adicionada(s)`); } }, 1600, .82, true);
   };
   window.chvImgs = function (id, inp) {
     readFiles(inp.files, async out => { const urls = await uploadAll(out, 'vistorias'); const x = S.propostas.find(y => y.id === id); x.chaves.fotos = [...(x.chaves.fotos || []), ...urls].slice(0, 12); log(`Fotografias de vistoria adicionadas — ${P(x.propId).ref}`); viewProposta(id); }, 1280, .75);

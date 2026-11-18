@@ -617,8 +617,42 @@ function idbPut(id,data){IMG[id]=data;if(!idb)return;try{idb.transaction('f','re
 function idbDel(id){delete IMG[id];if(!idb)return;try{idb.transaction('f','readwrite').objectStore('f').delete(id)}catch(e){}}
 function storeImg(data){if(!idb)return data;const id='img:'+uid('');idbPut(id,data);return id}
 const imgSrc=s=>s&&s.startsWith('img:')?(IMG[s]||''):s;
-function readFiles(files,cb,max=1600,q=.8){const L=[...files].filter(f=>/^image\//.test(f.type)).slice(0,20);if(!L.length){toast('Escolha ficheiros de imagem (JPG, PNG, WEBP)');return}const out=new Array(L.length);let done=0;
- L.forEach((f,i)=>{const r=new FileReader();r.onload=e=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');const sc=Math.min(1,max/Math.max(im.width,im.height));c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);out[i]=c.toDataURL('image/jpeg',q);if(++done===L.length)cb(out.filter(Boolean))};im.onerror=()=>{if(++done===L.length)cb(out.filter(Boolean))};im.src=e.target.result};r.readAsDataURL(f)})}
+/* Marca de água Kianda — desenha o logótipo no canto inferior direito de uma imagem */
+function drawWM(x,W,H,n1,n2){
+ const I=Math.round(Math.max(30,Math.min(W,H*1.5)*0.075)),k=I/40,m=Math.round(I*0.42);
+ const f1=Math.round(I*0.5),f2=Math.round(I*0.29),gap=Math.round(I*0.26);
+ const FF="'Plus Jakarta Sans','Inter',Arial,sans-serif";
+ x.save();
+ x.font=`800 ${f1}px ${FF}`;const w1=x.measureText(n1).width;
+ x.font=`600 ${f2}px ${FF}`;const w2=n2?x.measureText(n2).width:0;
+ const tw=Math.max(w1,w2),gx=W-m-tw-gap-I,gy=H-m-I;
+ x.globalAlpha=0.9;
+ // ícone
+ const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()};
+ x.shadowColor='rgba(0,0,0,.35)';x.shadowBlur=10*k;x.shadowOffsetY=3*k;
+ let g=x.createLinearGradient(gx,gy,gx+I,gy+I);g.addColorStop(0,'#FF7A7E');g.addColorStop(.55,'#E5484D');g.addColorStop(1,'#D93D50');
+ rr(gx,gy,I,I,I*0.32);x.fillStyle=g;x.fill();
+ x.shadowColor='transparent';
+ const s=I*0.55/24,ox=gx+(I-24*s)/2,oy=gy+(I-24*s)/2-0.5*k;
+ x.strokeStyle='#fff';x.lineWidth=2.4*s;x.lineCap='round';x.lineJoin='round';
+ x.beginPath();x.moveTo(ox+3*s,oy+11.2*s);x.lineTo(ox+12*s,oy+4*s);x.lineTo(ox+21*s,oy+11.2*s);x.stroke();
+ x.beginPath();x.moveTo(ox+5.6*s,oy+9.8*s);x.lineTo(ox+5.6*s,oy+19.5*s);x.lineTo(ox+18.4*s,oy+19.5*s);x.lineTo(ox+18.4*s,oy+9.8*s);x.stroke();
+ x.fillStyle='#fff';rr(ox+10*s,oy+13.4*s,4*s,6.1*s,1.2*s);x.fill();
+ const q=I*0.32,qx=gx+I-q+3*k,qy=gy+I-q+3*k;
+ g=x.createLinearGradient(qx,qy,qx+q,qy+q);g.addColorStop(0,'#FFD976');g.addColorStop(1,'#F5BE3B');
+ rr(qx,qy,q,q,q*0.36);x.fillStyle=g;x.fill();x.lineWidth=2*k;x.strokeStyle='#fff';x.stroke();
+ // texto
+ const tx=gx+I+gap;x.textBaseline='alphabetic';x.fillStyle='#fff';
+ x.shadowColor='rgba(0,0,0,.55)';x.shadowBlur=8*k;x.shadowOffsetY=1.5*k;
+ const th=f1*0.78+(n2?f2*1.25:0),ty=gy+(I-th)/2+f1*0.78;
+ x.font=`800 ${f1}px ${FF}`;x.fillText(n1,tx,ty);
+ if(n2){x.font=`600 ${f2}px ${FF}`;x.fillText(n2,tx,ty+f2*1.25)}
+ x.restore();
+}
+function wmNames(){const n=(S&&S.cfg&&S.cfg.empresa?S.cfg.empresa:'Kianda Imobiliária').trim().split(/\s+/);return [n[0],n.slice(1).join(' ')]}
+function readFiles(files,cb,max=1600,q=.8,wm=false){const L=[...files].filter(f=>/^image\//.test(f.type)).slice(0,20);if(!L.length){toast('Escolha ficheiros de imagem (JPG, PNG, WEBP)');return}const out=new Array(L.length);let done=0;const WN=wmNames();
+ const go=()=>L.forEach((f,i)=>{const r=new FileReader();r.onload=e=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');const sc=Math.min(1,max/Math.max(im.width,im.height));c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);const cx=c.getContext('2d');cx.drawImage(im,0,0,c.width,c.height);if(wm)try{drawWM(cx,c.width,c.height,WN[0],WN[1])}catch(e){}out[i]=c.toDataURL('image/jpeg',q);if(++done===L.length)cb(out.filter(Boolean))};im.onerror=()=>{if(++done===L.length)cb(out.filter(Boolean))};im.src=e.target.result};r.readAsDataURL(f)});
+ wm&&document.fonts&&document.fonts.load?Promise.all([document.fonts.load("800 40px 'Plus Jakarta Sans'"),document.fonts.load("600 20px 'Plus Jakarta Sans'")]).then(go,go):go()}
 function readImgs(input,cb){readFiles(input.files,cb,1280,.75)}
 function readImgsOld(input,cb){const files=[...input.files].slice(0,8);let out=[],n=files.length;if(!n)return;files.forEach(f=>{const r=new FileReader();r.onload=e=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');const s=Math.min(1,800/im.width);c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);out.push(c.toDataURL('image/jpeg',.62));if(out.length===n)cb(out)};im.onerror=()=>{n--;if(out.length===n&&n)cb(out)};im.src=e.target.result};r.readAsDataURL(f)})}
 function copyText(t,label='Copiado para a área de transferência'){try{navigator.clipboard.writeText(t).then(()=>toast(label),()=>{})}catch(e){}}
@@ -873,10 +907,10 @@ function photoMgr(k){const L=(phHolder(k).imgs||[]);
  ${L.length?`<div class="phgrid">${L.map((s,i)=>`<div class="phi"><img src="${imgSrc(s)}" alt="">${i===0?'<span class="cap tag gold">Capa</span>':''}<div class="phb">${i>0?`<button class="btn sm" title="Tornar capa" onclick="movImg('${k}',${i},0)">★</button><button class="btn sm" title="Mover para trás" onclick="movImg('${k}',${i},${i-1})">◀</button>`:''}${i<L.length-1?`<button class="btn sm" title="Mover para a frente" onclick="movImg('${k}',${i},${i+1})">▶</button>`:''}<button class="btn sm danger" title="Remover" onclick="rmImg('${k}',${i})">✕</button></div></div>`).join('')}</div>`:''}`}
 function phRefresh(k,msg){const el=document.getElementById('phm_'+k);if(el)el.innerHTML=photoMgr(k);if(k!=='new'){if(msg)log(msg+' — '+P(k).ref);save();render()}}
 function addImgFiles(k,files){const h=phHolder(k);h.imgs=h.imgs||[];const room=20-h.imgs.length;if(room<=0){toast('Máximo de 20 fotografias por imóvel');return}
- toast('A processar fotografias…');readFiles([...files].slice(0,room),out=>{out.forEach(d=>h.imgs.push(storeImg(d)));phRefresh(k,`${out.length} fotografia(s) adicionada(s)`);toast(`${out.length} fotografia(s) adicionada(s)`)})}
+ toast('A processar fotografias…');readFiles([...files].slice(0,room),out=>{out.forEach(d=>h.imgs.push(storeImg(d)));phRefresh(k,`${out.length} fotografia(s) adicionada(s)`);toast(`${out.length} fotografia(s) adicionada(s)`)},1600,.82,true)}
 function movImg(k,i,j){const L=phHolder(k).imgs;const [x]=L.splice(i,1);L.splice(j,0,x);phRefresh(k,j===0?'Fotografia de capa alterada':'Ordem das fotografias alterada')}
 function rmImg(k,i){const L=phHolder(k).imgs;const [x]=L.splice(i,1);if(x&&x.startsWith('img:')&&!S.props.some(p=>(p.imgs||[]).includes(x)))idbDel(x);phRefresh(k,'Fotografia removida')}
-function addImgs(id,inp){readImgs(inp,out=>{const p=P(id);p.imgs=[...p.imgs,...out].slice(0,10);log(`${out.length} fotografia(s) adicionada(s) — ${p.ref}`);save();viewProp(id);render()})}
+function addImgs(id,inp){readFiles(inp.files,out=>{const p=P(id);p.imgs=[...p.imgs,...out].slice(0,10);log(`${out.length} fotografia(s) adicionada(s) — ${p.ref}`);save();viewProp(id);render()},1280,.8,true)}
 function togDocPriv(id,did){const d=P(id).docs.find(d=>d.id===did);d.privado=!d.privado;log(`Visibilidade do documento “${d.nome}” alterada — ${P(id).ref}`);viewProp(id)}
 function delDoc(id,did){const p=P(id);const d=p.docs.find(d=>d.id===did);p.docs=p.docs.filter(d=>d.id!==did);log(`Documento removido “${d.nome}” — ${p.ref}`);viewProp(id)}
 function addDoc(id){const d=fd2('#newdoc');if(!d.nome){toast('Indique o nome do documento');return}P(id).docs.push({id:uid('d'),nome:d.nome,privado:d.privado});log(`Documento adicionado “${d.nome}” — ${P(id).ref}`);viewProp(id)}
@@ -1422,7 +1456,7 @@ idbOpen().then(idbLoadAll).then(()=>{if(Object.keys(IMG).length&&!$('.mbg'))rend
   }
   window.addImgFiles = function (k, files) {
     const h = phHolder(k); h.imgs = h.imgs || []; const room = 20 - h.imgs.length; if (room <= 0) { toast('Máximo de 20 fotografias por imóvel'); return; }
-    readFiles([...files].slice(0, room), async out => { const urls = await uploadAll(out, 'imoveis'); urls.forEach(u => h.imgs.push(u)); if (urls.length) { phRefresh(k, `${urls.length} fotografia(s) adicionada(s)`); toast(`${urls.length} fotografia(s) adicionada(s)`); } }, 1600, .82);
+    readFiles([...files].slice(0, room), async out => { const urls = await uploadAll(out, 'imoveis'); urls.forEach(u => h.imgs.push(u)); if (urls.length) { phRefresh(k, `${urls.length} fotografia(s) adicionada(s)`); toast(`${urls.length} fotografia(s) adicionada(s)`); } }, 1600, .82, true);
   };
   window.chvImgs = function (id, inp) {
     readFiles(inp.files, async out => { const urls = await uploadAll(out, 'vistorias'); const x = S.propostas.find(y => y.id === id); x.chaves.fotos = [...(x.chaves.fotos || []), ...urls].slice(0, 12); log(`Fotografias de vistoria adicionadas — ${P(x.propId).ref}`); viewProposta(id); }, 1280, .75);
